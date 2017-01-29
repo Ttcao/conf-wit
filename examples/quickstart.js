@@ -34,6 +34,29 @@ const firstEntityValue = (entities, entity) => {
   return typeof val === 'object' ? val.value : val;
 };
 
+const schedule = [
+  { "time" : 9, "event" : "Registration" },
+  { "time" : 10, "event": "James' speaking" },
+  { "time" : 11, "event" : "Tya's speaking" },
+  { "time" : 12, "event" : "Sergio's speaking" },
+  { "time" : 13, "event" : "Lunch break" },
+  { "time" : 14, "event" : "Tess' speaking" },
+  { "time" : 15, "event" : "Jaime's speaking" },
+  { "time" : 16, "event" : "Thomas' speaking" }
+]
+
+var getEventFromSchedule = function(schedule, time) {
+
+  var slotsWithTime = schedule.filter(function(slot){
+    return slot.time == time
+  });
+  if (slotsWithTime[0]) {
+    return slotsWithTime[0].event;
+  } else {
+    return {};
+  }
+}
+
 const actions = {
   send(request, response) {
     const {sessionId, context, entities} = request;
@@ -48,6 +71,18 @@ const actions = {
     } else {
       context.missingLocation = true;
       delete context.forecast;
+    }
+    return context;
+  },
+  getTimetable({context, entities}) {
+    var entityTime = firstEntityValue(entities, 'datetime');
+    if (entityTime) {
+      var time = new Date(Date.parse(entityTime)).getHours();
+      context.timetable = getEventFromSchedule(schedule, time);
+      delete context.missingTime;
+    } else {
+      context.missingTime = true;
+      delete context.timetable;
     }
     return context;
   },
