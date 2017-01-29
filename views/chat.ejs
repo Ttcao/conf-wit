@@ -9,5 +9,29 @@
 <body>
   <h1>Chat</h1>
   <p><%= message %></p>
+
+  <ul id="messages"></ul>
+  <form action="">
+    <input id="msg" autocomplete="off" /><button>Send</button>
+  </form>
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script>
+    var socket = io(); // how to change this to work if app is separate from UI
+    $('form').submit(function(){
+      console.log("submitting " + $('#msg').val());
+      socket.emit('chat message', $('#msg').val());
+      $('#msg').val('');
+      return false;
+    });
+
+    socket.on('chat response', function(msg) {
+      $('body').append('<p>' + msg + '</p>');
+      console.log('got this from server: ' + msg);
+    });
+  </script>
 </body>
 </html>
