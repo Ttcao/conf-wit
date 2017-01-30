@@ -10,23 +10,31 @@ const Wit = require('./examples/quickstart.js');
 
 // const WIT_TOKEN = process.env.WIT_TOKEN;
 
-io.on('connection', function(socket){
-  console.log('a user connected');
+io.on('connection', function(socket) {
+    console.log('a user connected');
 
-  socket.on('chat message', function(msg){
-    console.log('Send msg to Wit: ' + msg);
+    socket.on('chat message', function(msg) {
+        console.log('Send msg to Wit: ' + msg);
 
-    // Call Wit Ai code
-    Wit.client.runActions('test-session', msg, {})
-      .then(function(data) {
-        // console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
-        // Send Wit's response to the UI
-        socket.emit('chat response', data.timetable);
-      })
-      .catch(console.error);
-
-  });
-
+        // Call Wit Ai code
+        const sessionId = 'test-session';
+        const context0 = {};
+        Wit.client.runActions(sessionId, msg, context0)
+            .then((context1) => {
+                console.log('1 The session state is now: ' + JSON.stringify(context1));
+                if (context1.timetable) {
+                    socket.emit('chat response', context1.timetable);
+                } else if (context1.forecast) {
+                    socket.emit('chat response', context1.forecast);
+                } else {
+                    // do nothing
+                }
+            })
+            .catch((e) => {
+                // console.log('Oops! Got an error: ' + e);
+                socket.emit('chat response', "I don't understand what you're saying");
+            });
+    });
 });
 
 
@@ -48,9 +56,11 @@ app.set('view engine', 'ejs');
 // });
 
 app.get('/chat', function(request, response) {
-  response.render('chat', { message: 'Ask our bot!' });
+    response.render('chat', {
+        message: 'Ask our bot!'
+    });
 });
 
 http.listen(PORT, function() {
-  console.log('Example app listening on port ' + PORT);
+    console.log('Example app listening on port ' + PORT);
 });

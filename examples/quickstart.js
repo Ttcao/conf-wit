@@ -64,21 +64,21 @@ const actions = {
     const {text, quickreplies} = response;
     // console.log('sending...', JSON.stringify(response));
   },
-  // getForecast({context, entities}) {
-  //   var location = firstEntityValue(entities, 'location');
-  //   if (location) {
-  //     context.forecast = 'sunny in ' + location; // we should call a weather API here
-  //     delete context.missingLocation;
-  //   } else {
-  //     context.missingLocation = true;
-  //     delete context.forecast;
-  //   }
-  //   return context;
-  // },
+  getForecast({context, entities}) {
+    var location = firstEntityValue(entities, 'location');
+    if (location) {
+      context.forecast = 'sunny in ' + location; // we should call a weather API here
+      delete context.missingLocation;
+    } else {
+      context.missingLocation = true;
+      delete context.forecast;
+    }
+    return context;
+  },
   getTimetable({context, entities}) {
     var entityTime = firstEntityValue(entities, 'datetime');
     if (entityTime) {
-      console.log("Get from schedule!");
+      // console.log("Get from schedule!");
       var time = new Date(Date.parse(entityTime)).getHours();
       context.timetable = getEventFromSchedule(schedule, time);
       delete context.missingTime;
@@ -88,6 +88,17 @@ const actions = {
     }
     return context;
   },
+  // getTicketInfo({context, entities}) {
+  //   var ticket = firstEntityValue(entities, 'ticket');
+  //   if (ticket) {
+  //     context.ticket = 'buy your ticket'
+  //     // delete context.missingLocation;
+  //   // } else {
+  //   //   context.missingLocation = true;
+  //   //   delete context.forecast;
+  //   }
+  //   return context.ticket;
+  // },
 };
 
 // module.exports = {
