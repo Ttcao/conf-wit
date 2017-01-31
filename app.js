@@ -26,12 +26,15 @@ io.on('connection', function(socket) {
                     socket.emit('chat response', context1.timetable);
                 } else if (context1.forecast) {
                     socket.emit('chat response', context1.forecast);
+                } else if (context1.speaker) {
+                    socket.emit('chat response', context1.speaker);
                 } else {
                     // do nothing
                 }
             })
             .catch((e) => {
                 // console.log('Oops! Got an error: ' + e);
+                console.log(e)
                 socket.emit('chat response', "I don't understand what you're saying");
             });
     });

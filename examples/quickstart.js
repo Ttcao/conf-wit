@@ -58,6 +58,29 @@ var getEventFromSchedule = function(schedule, time) {
   }
 }
 
+const theSpeakers = [
+  { "speaker" : "Mary", "about" : "Mary Smith will be speaking about UX in a changing environment." },
+  { "speaker" : "Susie", "about": "Susie Waterdown from Disney is talking Candy sushi making bots get a question." },
+  { "speaker" : "Gavin", "about" : "Gavin Richards is one of our finests from General Assembly and is all over the that Case for B-Trees." },
+  { "speaker" : "Deloris", "about" : "The genius behind BaseFook! Deloris Carter talks about using default scopes in ActiveRecord." },
+  { "speaker" : "George", "about" : "George Winters from one of the biggest Tech companies in Australia. At REA he participates in the sport of Extreme Programming." },
+  { "speaker" : "Winston", "about" : "Winston Devcoulter from Twitter talks about the meaning of notifications." },
+  { "speaker" : "Stewart", "about" : "Stewart Wisham from Github is sharing his knowledge of the data analysis of board games." },
+]
+
+var aboutSpeaker = function(speaker) {
+
+  var slotsWithSpeakers = theSpeakers.filter(function(slot){
+    return slot.speaker == speaker
+  });
+  if (slotsWithSpeakers[0]) {
+    return slotsWithSpeakers[0].about;
+  } else {
+    return {};
+  }
+
+}
+
 const actions = {
   send(request, response) {
     const {sessionId, context, entities} = request;
@@ -68,10 +91,10 @@ const actions = {
     var location = firstEntityValue(entities, 'location');
     if (location) {
       context.forecast = 'sunny in ' + location; // we should call a weather API here
-      delete context.missingLocation;
-    } else {
-      context.missingLocation = true;
-      delete context.forecast;
+    //   delete context.missingLocation;
+    // } else {
+    //   context.missingLocation = true;
+    //   delete context.forecast;
     }
     return context;
   },
@@ -81,24 +104,21 @@ const actions = {
       // console.log("Get from schedule!");
       var time = new Date(Date.parse(entityTime)).getHours();
       context.timetable = getEventFromSchedule(schedule, time);
-      delete context.missingTime;
-    } else {
-      context.missingTime = true;
-      delete context.timetable;
+    //   delete context.missingTime;
+    // } else {
+    //   context.missingTime = true;
+    //   delete context.timetable;
     }
     return context;
   },
-  // getTicketInfo({context, entities}) {
-  //   var ticket = firstEntityValue(entities, 'ticket');
-  //   if (ticket) {
-  //     context.ticket = 'buy your ticket'
-  //     // delete context.missingLocation;
-  //   // } else {
-  //   //   context.missingLocation = true;
-  //   //   delete context.forecast;
-  //   }
-  //   return context.ticket;
-  // },
+  aboutSpeaker({context, entities}) {
+    var speaker = firstEntityValue(entities, 'contact');
+    if (speaker) {
+      console.log(speaker)
+      context.speaker = aboutSpeaker(speaker);
+    }
+    return context;
+  },
 };
 
 // module.exports = {
