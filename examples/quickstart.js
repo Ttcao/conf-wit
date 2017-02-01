@@ -20,9 +20,6 @@ const accessToken = (() => {
   return process.argv[2];
 })();
 
-// Quickstart example
-// See https://wit.ai/ar7hur/quickstart
-
 const firstEntityValue = (entities, entity) => {
   const val = entities && entities[entity] &&
     Array.isArray(entities[entity]) &&
@@ -36,14 +33,14 @@ const firstEntityValue = (entities, entity) => {
 };
 
 const schedule = [
-  { "time" : 9, "event" : "Registration" },
-  { "time" : 10, "event": "James' speaking" },
-  { "time" : 11, "event" : "Tya's speaking" },
-  { "time" : 12, "event" : "Sergio's speaking" },
-  { "time" : 13, "event" : "Lunch break" },
-  { "time" : 14, "event" : "Tess' speaking" },
-  { "time" : 15, "event" : "Jaime's speaking" },
-  { "time" : 16, "event" : "Thomas' speaking" }
+  { "time" : 9, "event" : "At 9am Gavin Richards from General Assembly will be kicking the event off in Classroom 1; George Winters from REA in Classroom 5; Georgina Splintlay from ZenDesk in Classroom 4." },
+  { "time" : 10, "event": "There will be a short break between talks and workshops running throughtout the day in Classrooms 2 and 3. Make sure you stop by and get your hands dirty!"},
+  { "time" : 11, "event" : "At 11am you can find Delores Carter from Bacefook in Classroom 1; Winston Devcoulter from Twitter in Classroom 5; Fred Hammings from Envato is in Classroom 4" },
+  { "time" : 12, "event" : "Lunch Time! Food and drinks will be catered in the kitchen." },
+  { "time" : 13, "event" : "Lunch Time! Food and drinks will be catered in the kitchen." },
+  { "time" : 14, "event" : "At 2pm Mary Smith from Facebook is in Classroom 1; Stewart Wisham from Github in Classroom 5; Gavin Richards from General Assembly will be in Classroom 4." },
+  { "time" : 15, "event" : "At 3.30pm Susie Waterdown from Disney will be in Classroom 1; Delores Carter from Bacefook in Classroom 4; Natasha Frack from Github will be in Classroom 5." },
+  { "time" : 16, "event" : "There will be a short break between talks and workshops running throughtout the day in Classrooms 2 and 3. Make sure you stop by and get your hands dirty!" }
 ]
 
 var getEventFromSchedule = function(schedule, time) {
@@ -56,16 +53,20 @@ var getEventFromSchedule = function(schedule, time) {
   } else {
     return {};
   }
+
 }
 
 const theSpeakers = [
-  { "speaker" : "Mary", "about" : "Mary Smith will be speaking about UX in a changing environment." },
+  { "speaker" : "Mary", "about" : "Mary Smith from Facebook will be speaking about UX in a changing environment." },
   { "speaker" : "Susie", "about": "Susie Waterdown from Disney is talking Candy sushi making bots get a question." },
-  { "speaker" : "Gavin", "about" : "Gavin Richards is one of our finests from General Assembly and is all over the that Case for B-Trees." },
-  { "speaker" : "Deloris", "about" : "The genius behind BaseFook! Deloris Carter talks about using default scopes in ActiveRecord." },
+  { "speaker" : "Gavin", "about" : "Gavin Richards is one of our finest from General Assembly and is all over the that Case for B-Trees. He will also be speakin about Concurrent, Cooperative Technology." },
+  { "speaker" : "Deloris", "about" : "The genius behind BaseFook! Deloris Carter talks about using default scopes in ActiveRecord. She will also be sharing her UX journey with Visualization of Agents." },
   { "speaker" : "George", "about" : "George Winters from one of the biggest Tech companies in Australia. At REA he participates in the sport of Extreme Programming." },
   { "speaker" : "Winston", "about" : "Winston Devcoulter from Twitter talks about the meaning of notifications." },
-  { "speaker" : "Stewart", "about" : "Stewart Wisham from Github is sharing his knowledge of the data analysis of board games." },
+  { "speaker" : "Stewart", "about" : "Stewart Wisham from Github is sharing his knowledge of board games." },
+  { "speaker" : "Natasha", "about" : "Natasha Frack is a Git Lord and she will be Emulating the partition table with SPARER. Get excited!" },
+  { "speaker" : "Georgina", "about" : "Georgina Splintlay from ZenDesk will be Deconstructing Scatter/Gather and putting it into practice." },
+  { "speaker" : "Fred", "about" : "Fred Hammings is an Envato developer and will be explaining the why's and how's of the development of scheme." }
 ]
 
 var aboutSpeaker = function(speaker) {
