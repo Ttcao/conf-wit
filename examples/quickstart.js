@@ -1,15 +1,11 @@
 'use strict';
 
 let Wit = null;
-// let interactive = null;
 
 try {
-  // if running from repo
   Wit = require('../').Wit;
-  // interactive = require('../').interactive;
 } catch (e) {
   Wit = require('node-wit').Wit;
-  // interactive = require('node-wit').interactive;
 }
 
 const accessToken = (() => {
@@ -32,6 +28,7 @@ const firstEntityValue = (entities, entity) => {
   return typeof val === 'object' ? val.value : val;
 };
 
+// getTimetable function
 const schedule = [
   { "time" : 9, "event" : "At 9am Gavin Richards from General Assembly will be kicking the event off in Classroom 1; George Winters from REA in Classroom 5; Georgina Splintlay from ZenDesk in Classroom 4." },
   { "time" : 10, "event": "There will be a short break between talks and workshops running throughtout the day in Classrooms 2 and 3. Make sure you stop by and get your hands dirty!"},
@@ -56,11 +53,12 @@ var getEventFromSchedule = function(schedule, time) {
 
 }
 
+// getSpeaker function
 const theSpeakers = [
   { "speaker" : "Mary", "about" : "Mary Smith from Facebook will be speaking about UX in a changing environment." },
   { "speaker" : "Susie", "about": "Susie Waterdown from Disney is talking Candy sushi making bots get a question." },
   { "speaker" : "Gavin", "about" : "Gavin Richards is one of our finest from General Assembly and is all over the that Case for B-Trees. He will also be speakin about Concurrent, Cooperative Technology." },
-  { "speaker" : "Deloris", "about" : "The genius behind BaseFook! Deloris Carter talks about using default scopes in ActiveRecord. She will also be sharing her UX journey with Visualization of Agents." },
+  { "speaker" : "Delores", "about" : "The genius behind BaseFook! Delores Carter talks about using default scopes in ActiveRecord. She will also be sharing her UX journey with Visualization of Agents." },
   { "speaker" : "George", "about" : "George Winters from one of the biggest Tech companies in Australia. At REA he participates in the sport of Extreme Programming." },
   { "speaker" : "Winston", "about" : "Winston Devcoulter from Twitter talks about the meaning of notifications." },
   { "speaker" : "Stewart", "about" : "Stewart Wisham from Github is sharing his knowledge of board games." },
@@ -86,46 +84,31 @@ const actions = {
   send(request, response) {
     const {sessionId, context, entities} = request;
     const {text, quickreplies} = response;
-    // console.log('sending...', JSON.stringify(response));
   },
-  getForecast({context, entities}) {
-    var location = firstEntityValue(entities, 'location');
-    if (location) {
-      context.forecast = 'sunny in ' + location; // we should call a weather API here
-    //   delete context.missingLocation;
-    // } else {
-    //   context.missingLocation = true;
-    //   delete context.forecast;
-    }
-    return context;
-  },
+
   getTimetable({context, entities}) {
     var entityTime = firstEntityValue(entities, 'datetime');
     if (entityTime) {
-      // console.log("Get from schedule!");
       var time = new Date(Date.parse(entityTime)).getHours();
       context.timetable = getEventFromSchedule(schedule, time);
-    //   delete context.missingTime;
-    // } else {
-    //   context.missingTime = true;
-    //   delete context.timetable;
     }
     return context;
   },
   aboutSpeaker({context, entities}) {
     var speaker = firstEntityValue(entities, 'contact');
     if (speaker) {
-      console.log(speaker)
       context.speaker = aboutSpeaker(speaker);
     }
     return context;
   },
+  getTicket({context, entities}) {
+    var ticket = firstEntityValue(entities, 'ticket');
+    if (ticket) {
+      context.ticket = 'Early bird tickets cost $550 and general admission tickets cost $700. The early bird ticket sale ends 30 Jan 2017 so get in quick!';
+    }
+    return context;
+  },
 };
-
-// module.exports = {
-// const client = new Wit({accessToken, actions});
-// interactive(client);
-// }
 
 module.exports = {
   client: new Wit({accessToken, actions})
