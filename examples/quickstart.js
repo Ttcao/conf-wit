@@ -9,11 +9,7 @@ try {
 }
 
 const accessToken = (() => {
-  if (process.argv.length !== 3) {
-    console.log('usage: node examples/quickstart.js <wit-access-token>');
-    process.exit(1);
-  }
-  return process.argv[2];
+  return process.env.WIT_TOKEN;
 })();
 
 const firstEntityValue = (entities, entity) => {
