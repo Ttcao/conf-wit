@@ -1,7 +1,7 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 const request = require('request');
-const PORT = 4567;
+const PORT = process.env.PORT || 4567;
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const Wit = require('./examples/quickstart.js');
@@ -46,4 +46,5 @@ app.get('/chat', function(request, response) {
 });
 
 http.listen(PORT, function() {
+  console.log(`server starting on port ${PORT}`);
 });
