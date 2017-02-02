@@ -81,7 +81,6 @@ const actions = {
     const {sessionId, context, entities} = request;
     const {text, quickreplies} = response;
   },
-
   getTimetable({context, entities}) {
     var entityTime = firstEntityValue(entities, 'datetime');
     if (entityTime) {
