@@ -16,11 +16,12 @@ io.on('connection', function(socket) {
         const context0 = {};
         Wit.client.runActions(sessionId, msg, context0)
             .then((context1) => {
-                if (context1.timetable) {
+              console.log(context1)
+                if (context1.timetable && JSON.stringify(context1.timetable) != '{}') {
                     socket.emit('chat response', context1.timetable);
                 } else if (context1.speaker && JSON.stringify(context1.speaker) != '{}') {
                     socket.emit('chat response', context1.speaker);
-                } else if (context1.ticket) {
+                } else if (context1.ticket && JSON.stringify(context1.ticket) != '{}') {
                     socket.emit('chat response', context1.ticket);
                 } else {
                   // do nothing
